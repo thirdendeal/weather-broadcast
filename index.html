@@ -8,13 +8,35 @@
   <body>
     <header>
       <h1>Weather Broadcast</h1>
+
+      <input
+        type="text"
+        name="input"
+        id="input"
+        placeholder="Somewhere else?"
+      />
+      <input type="submit" name="submit" id="submit" value="Search" />
     </header>
 
     <main>
-      <article id="city">Loading...</article>
+      <article>
+        <h2>City</h2>
+
+        <p id="city">?</p>
+      </article>
+      <article>
+        <h2>Coordinates</h2>
+
+        <h3>Latitude</h3>
+        <p id="latitude">?</p>
+
+        <h3>Longitude</h3>
+        <p id="longitude">?</p>
+      </article>
     </main>
 
-    <script src="/js/ip-api.js"></script>
+    <script src="/js/main/ip-api.js"></script>
+    <script src="/js/main/nominatim.js"></script>
 
     <script src="/js/main.js"></script>
   </body>
