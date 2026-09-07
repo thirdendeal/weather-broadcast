@@ -1,5 +1,12 @@
 "use strict";
 
+function ipAPI(callback) {
+  fetch("http://ip-api.com/json/")
+    .then((response) => response.json())
+    .then((json) => callback(json))
+    .catch((error) => console.log(`IP-API Error: ${error}`));
+}
+
 function nominatim(query, callback) {
   const endpoint = "https://nominatim.openstreetmap.org/search";
 
