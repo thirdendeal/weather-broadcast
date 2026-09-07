@@ -46,7 +46,7 @@ submit.addEventListener("click", () => {
   lat.textContent = "...";
   lon.textContent = "...";
 
-  nominatimSearch(query, (json) => {
+  nominatim(query, (json) => {
     if (json[0]) {
       city.textContent = json[0].name;
 
