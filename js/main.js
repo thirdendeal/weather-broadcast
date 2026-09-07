@@ -22,11 +22,23 @@ submit.addEventListener("click", () => {
 
   const query = document.getElementById("input").value;
 
-  nominatimSearch(query, (json) => {
-    document.getElementById("city").textContent = json[0].name;
+  const city = document.getElementById("city");
 
-    document.getElementById("latitude").textContent = json[0].lat;
-    document.getElementById("longitude").textContent = json[0].lon;
+  const lat = document.getElementById("latitude");
+  const lon = document.getElementById("longitude");
+
+  nominatimSearch(query, (json) => {
+    if (json[0]) {
+      city.textContent = json[0].name;
+
+      lat.textContent = json[0].lat;
+      lon.textContent = json[0].lon;
+    } else {
+      city.textContent = `"${query}" not found`;
+
+      lat.textContent = "?";
+      lon.textContent = "?";
+    }
   });
 });
 
