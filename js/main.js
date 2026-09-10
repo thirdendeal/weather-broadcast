@@ -4,18 +4,18 @@
 
 const city = document.getElementById("city");
 
-// IP Geolocation
+// Geolocation By IP (Automatic)
 // -----------------------------------------------------------------------------
 
 window.addEventListener("load", () => {
-  ipAPI((json) => {
-    city.textContent = json.city;
+  ipGeocode((ipAPI) => {
+    city.textContent = ipAPI.city;
 
-    forecast(json.lat, json.lon);
+    forecast(ipAPI.lat, ipAPI.lon);
   });
 });
 
-// Search
+// Geolocation By Search
 // -----------------------------------------------------------------------------
 
 const input = document.getElementById("input");
@@ -24,25 +24,21 @@ const submit = document.getElementById("submit");
 submit.addEventListener("click", () => {
   city.textContent = "...";
 
-  nominatim(input.value, (json) => {
-    const top = json[0];
-
-    if (top) {
-      city.textContent = top.name;
+  geocode(input.value, (nominatim) => {
+    if (nominatim[0]) {
+      city.textContent = nominatim[0].name;
 
       const p = document.createElement("p");
 
       city.after(p);
-      p.textContent = top.display_name;
+      p.textContent = nominatim[0].display_name;
 
-      forecast(top.lat, top.lon);
+      forecast(nominatim[0].lat, nominatim[0].lon);
     } else {
       city.textContent = `"${input.value}" not found`;
     }
   });
 });
-
-// Enter -> Submit
 
 input.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {

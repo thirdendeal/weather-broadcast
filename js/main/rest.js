@@ -1,17 +1,17 @@
 "use strict";
 
-function ipAPI(callback) {
-  fetch("http://ip-api.com/json/")
+function geocode(query, callback) {
+  const ENDPOINT = "https://nominatim.openstreetmap.org/search";
+
+  fetch(`${ENDPOINT}?format=jsonv2&q=${encodeURIComponent(query)}`)
     .then((response) => response.json())
-    .then((json) => callback(json))
-    .catch((error) => console.log(`IP-API Error: ${error}`));
+    .then((nominatim) => callback(nominatim))
+    .catch((error) => console.log(`Nominatim Error: ${error}`));
 }
 
-function nominatim(query, callback) {
-  const endpoint = "https://nominatim.openstreetmap.org/search";
-
-  fetch(`${endpoint}?format=jsonv2&q=${encodeURIComponent(query)}`)
+function ipGeocode(callback) {
+  fetch("http://ip-api.com/json/")
     .then((response) => response.json())
-    .then((json) => callback(json))
-    .catch((error) => console.log(`Nominatim Error: ${error}`));
+    .then((ipAPI) => callback(ipAPI))
+    .catch((error) => console.log(`IP-API Error: ${error}`));
 }
