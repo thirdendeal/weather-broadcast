@@ -11,7 +11,7 @@ window.addEventListener("load", () => {
   ipGeocode((ipAPI) => {
     city.textContent = ipAPI.city;
 
-    forecast(ipAPI.lat, ipAPI.lon);
+    log(ipAPI.lat, ipAPI.lon);
   });
 });
 
@@ -33,7 +33,7 @@ submit.addEventListener("click", () => {
       city.after(p);
       p.textContent = nominatim[0].display_name;
 
-      forecast(nominatim[0].lat, nominatim[0].lon);
+      log(nominatim[0].lat, nominatim[0].lon);
     } else {
       city.textContent = `"${input.value}" not found`;
     }
