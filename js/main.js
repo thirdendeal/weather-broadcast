@@ -28,10 +28,8 @@ submit.addEventListener("click", () => {
     if (nominatim[0]) {
       city.textContent = nominatim[0].name;
 
-      const p = document.createElement("p");
-
-      city.after(p);
-      p.textContent = nominatim[0].display_name;
+      document.getElementById("city-info").textContent =
+        nominatim[0].display_name;
 
       display(nominatim[0].lat, nominatim[0].lon);
     } else {
