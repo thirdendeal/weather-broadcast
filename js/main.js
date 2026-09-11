@@ -2,7 +2,7 @@
 
 // -----------------------------------------------------------------------------
 
-const city = document.getElementById("city");
+const city = document.getElementById("header__city");
 
 // Geolocation By IP (Automatic)
 // -----------------------------------------------------------------------------
@@ -18,8 +18,8 @@ window.addEventListener("load", () => {
 // Geolocation By Search
 // -----------------------------------------------------------------------------
 
-const input = document.getElementById("input");
-const submit = document.getElementById("submit");
+const input = document.getElementById("header__input");
+const submit = document.getElementById("header__submit");
 
 submit.addEventListener("click", () => {
   city.textContent = "...";
@@ -28,7 +28,7 @@ submit.addEventListener("click", () => {
     if (nominatim[0]) {
       city.textContent = nominatim[0].name;
 
-      document.getElementById("city-info").textContent =
+      document.getElementById("header__city-detail").textContent =
         nominatim[0].display_name;
 
       display(parseFloat(nominatim[0].lat), parseFloat(nominatim[0].lon));

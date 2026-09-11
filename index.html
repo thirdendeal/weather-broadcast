@@ -4,25 +4,47 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Broadcast</title>
+
+    <style>
+      .header {
+        display: flex;
+        justify-content: space-between;
+
+        margin-bottom: 4rem;
+      }
+
+      .header__title {
+        margin: 0;
+      }
+    </style>
   </head>
   <body>
-    <header>
-      <h1>Weather Broadcast</h1>
+    <header class="header">
+      <section class="header__section">
+        <h1 class="header__title">Weather Broadcast</h1>
 
-      <input
-        type="text"
-        name="input"
-        id="input"
-        placeholder="Somewhere else?"
-      />
-      <input type="submit" name="submit" id="submit" value="Search" />
+        <h2 id="header__city">?</h2>
+        <p id="header__city-detail"><br /></p>
+      </section>
+
+      <section class="header__section">
+        <input
+          type="text"
+          name="header__input"
+          id="header__input"
+          placeholder="Somewhere else?"
+        />
+        <input
+          type="submit"
+          name="header__submit"
+          id="header__submit"
+          value="Search"
+        />
+      </section>
     </header>
 
     <main>
       <article>
-        <h2 id="city">?</h2>
-        <p id="city-info"></p>
-
         <h3>Today</h3>
 
         <p><span id="code-0">?</span></p>
