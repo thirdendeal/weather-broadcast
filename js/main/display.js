@@ -48,8 +48,7 @@ const WMO_CODE = {
 // -----------------------------------------------------------------------------
 
 function display(latitude, longitude) {
-  document.getElementById("latitude").textContent = latitude;
-  document.getElementById("longitude").textContent = longitude;
+  console.log(latitude, longitude);
 
   forecast(latitude, longitude, (openMeteo) => {
     const DAY = 0; // today
