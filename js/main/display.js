@@ -47,34 +47,21 @@ const WMO_CODE = {
 
 // -----------------------------------------------------------------------------
 
-function log(latitude, longitude) {
+function display(latitude, longitude) {
   document.getElementById("latitude").textContent = latitude;
   document.getElementById("longitude").textContent = longitude;
 
   forecast(latitude, longitude, (openMeteo) => {
-    console.log(openMeteo.daily.time[0]);
+    const DAY = 0; // today
 
-    console.log(openMeteo.timezone);
-    console.log(openMeteo.timezone_abbreviation);
+    const code = openMeteo.daily.weather_code[DAY];
+    const min = `${openMeteo.daily.apparent_temperature_min[DAY]} ${openMeteo.daily_units.apparent_temperature_min}`;
+    const max = `${openMeteo.daily.apparent_temperature_max[DAY]} ${openMeteo.daily_units.apparent_temperature_max}`;
+    const rain = `${openMeteo.daily.precipitation_probability_max[DAY]} ${openMeteo.daily_units.precipitation_probability_max}`;
 
-    console.log(WMO_CODE[openMeteo.daily.weather_code[0]]);
-
-    console.log(
-      openMeteo.daily.apparent_temperature_min[0] +
-        " " +
-        openMeteo.daily_units.apparent_temperature_min,
-    );
-
-    console.log(
-      openMeteo.daily.apparent_temperature_max[0] +
-        " " +
-        openMeteo.daily_units.apparent_temperature_max,
-    );
-
-    console.log(
-      openMeteo.daily.precipitation_probability_max[0] +
-        " " +
-        openMeteo.daily_units.precipitation_probability_max,
-    );
+    document.getElementById(`code-${DAY}`).textContent = WMO_CODE[code];
+    document.getElementById(`min-${DAY}`).textContent = min;
+    document.getElementById(`max-${DAY}`).textContent = max;
+    document.getElementById(`rain-${DAY}`).textContent = rain;
   });
 }
