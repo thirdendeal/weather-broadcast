@@ -1,0 +1,60 @@
+/* Document */
+/* -------------------------------------------------------------------------- */
+
+body {
+  width: 80rem;
+  margin: auto;
+
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header */
+/* -------------------------------------------------------------------------- */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+
+  margin-bottom: 4rem;
+}
+
+.header__section {
+  padding: 1rem 0;
+}
+
+.header__title {
+  margin: 0;
+}
+
+/* Main */
+/* -------------------------------------------------------------------------- */
+
+.main {
+  display: flex;
+  justify-content: space-between;
+
+  margin: -2.5rem;
+}
+
+/* Article */
+
+.article {
+  margin: 2.5rem;
+}
+
+.article__title {
+  font-weight: 400;
+}
+
+.article__code {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.article__min {
+  color: blue;
+}
+
+.article__max {
+  color: red;
+}

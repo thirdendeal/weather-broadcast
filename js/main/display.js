@@ -47,20 +47,39 @@ const WMO_CODE = {
 
 // -----------------------------------------------------------------------------
 
+function appendDayForecast(openMeteo, day, anchor) {
+  const date = openMeteo.daily.time[day].substring(8);
+  const code = WMO_CODE[openMeteo.daily.weather_code[day]];
+  const min = `<span class="article__min">${openMeteo.daily.apparent_temperature_min[day]}</span> ${openMeteo.daily_units.apparent_temperature_min}`;
+  const max = `<span class="article__max">${openMeteo.daily.apparent_temperature_max[day]}</span> ${openMeteo.daily_units.apparent_temperature_max}`;
+  const rain = `${openMeteo.daily.precipitation_probability_max[day]} ${openMeteo.daily_units.precipitation_probability_max}`;
+
+  const article = document.createElement("article");
+  article.className = "article";
+
+  const innerHTML = `
+    <h3 class="article__title">${date}</h3>
+
+    <p class="article__code">${code}</p>
+    <p class="article__minmax">${min} - ${max}</p>
+    <p class="article__rain">${rain} 🌧️</p>
+  `;
+  article.innerHTML = innerHTML.trim().replace(/\s+/g, " "); // trim squeeze whitespace
+
+  anchor.appendChild(article);
+}
+
+// -----------------------------------------------------------------------------
+
 function display(latitude, longitude) {
   console.log(latitude, longitude);
 
+  const anchor = document.getElementById("main");
+  anchor.innerHTML = "";
+
   forecast(latitude, longitude, (openMeteo) => {
-    const DAY = 0; // today
-
-    const code = openMeteo.daily.weather_code[DAY];
-    const min = `${openMeteo.daily.apparent_temperature_min[DAY]} ${openMeteo.daily_units.apparent_temperature_min}`;
-    const max = `${openMeteo.daily.apparent_temperature_max[DAY]} ${openMeteo.daily_units.apparent_temperature_max}`;
-    const rain = `${openMeteo.daily.precipitation_probability_max[DAY]} ${openMeteo.daily_units.precipitation_probability_max}`;
-
-    document.getElementById(`code-${DAY}`).textContent = WMO_CODE[code];
-    document.getElementById(`min-${DAY}`).textContent = min;
-    document.getElementById(`max-${DAY}`).textContent = max;
-    document.getElementById(`rain-${DAY}`).textContent = rain;
+    for (let day = 0; day < 4; day++) {
+      appendDayForecast(openMeteo, day, anchor);
+    }
   });
 }

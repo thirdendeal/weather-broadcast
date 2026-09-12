@@ -5,18 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Broadcast</title>
 
-    <style>
-      .header {
-        display: flex;
-        justify-content: space-between;
-
-        margin-bottom: 4rem;
-      }
-
-      .header__title {
-        margin: 0;
-      }
-    </style>
+    <link rel="stylesheet" href="/css/main.css" />
   </head>
   <body>
     <header class="header">
@@ -43,18 +32,7 @@
       </section>
     </header>
 
-    <main>
-      <article>
-        <h3>Today</h3>
-
-        <p><span id="code-0">?</span></p>
-        <p>
-          Apparent Temperature:
-          <span id="min-0">?</span> - <span id="max-0">?</span>
-        </p>
-        <p>Chance of Rain: <span id="rain-0">?</span></p>
-      </article>
-    </main>
+    <main class="main" id="main"></main>
 
     <script src="/js/main/display.js"></script>
     <script src="/js/main/rest.js"></script>
