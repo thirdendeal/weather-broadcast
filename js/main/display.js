@@ -7,46 +7,46 @@ const RELATIVE_DATE = {
   1: "Tomorrow",
 };
 
-const WMO_CODE = {
+const WEATHER_DESCRIPTION = {
   0: "Clear Sky",
 
   1: "Mainly Clear",
-  2: "Partly Cloudy",
+  2: "Cloudy",
   3: "Overcast",
 
   45: "Fog",
-  48: "Depositing Rime Fog",
+  48: "Rime Fog",
 
   51: "Light Drizzle",
-  53: "Moderate Drizzle",
-  55: "Dense Intensity Drizzle",
+  53: "Drizzle",
+  55: "Dense Drizzle",
 
-  56: "Light Freezing Drizzle",
-  57: "Dense Intensity Freezing Drizzle",
+  56: "Freezing Drizzle",
+  57: "Dense Freezing Drizzle",
 
   61: "Slight Rain",
-  63: "Moderate Rain",
-  65: "Heavy Intensity Rain",
+  63: "Rain",
+  65: "Heavy Rain",
 
   66: "Light Freezing Rain",
-  67: "Heavy Intensity Freezing Rain",
+  67: "Heavy Freezing Rain",
 
   71: "Slight Snow Fall",
-  73: "Moderate Snow Fall",
-  75: "Heavy Intensity Snow Fall",
+  73: "Snow Fall",
+  75: "Heavy Snow Fall",
 
   77: "Snow Grains",
 
   80: "Slight Rain Showers",
-  81: "Moderate Rain Showers",
+  81: "Rain Showers",
   82: "Violent Rain Showers",
 
-  85: "Slight Snow Showers",
+  85: "Snow Showers",
   86: "Heavy Snow Showers",
 
   95: "Thunderstorm",
 
-  96: "Slight Hail Thunderstorm",
+  96: "Hail Thunderstorm",
   99: "Heavy Hail Thunderstorm",
 };
 
@@ -73,7 +73,7 @@ function normalizeWeatherData(openMeteo, day) {
   return {
     date: openMeteo.daily.time[day].substring(8),
     relative: RELATIVE_DATE[day],
-    code: WMO_CODE[openMeteo.daily.weather_code[day]],
+    code: WEATHER_DESCRIPTION[openMeteo.daily.weather_code[day]],
     min: `${openMeteo.daily.apparent_temperature_min[day]} ${openMeteo.daily_units.apparent_temperature_min}`,
     max: `${openMeteo.daily.apparent_temperature_max[day]} ${openMeteo.daily_units.apparent_temperature_max}`,
     rain: `${openMeteo.daily.precipitation_probability_max[day]} ${openMeteo.daily_units.precipitation_probability_max}`,
