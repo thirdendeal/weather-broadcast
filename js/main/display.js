@@ -2,6 +2,11 @@
 
 // -----------------------------------------------------------------------------
 
+const RELATIVE_DATE = {
+  0: "Today",
+  1: "Tomorrow",
+};
+
 const WMO_CODE = {
   0: "Clear Sky",
 
@@ -48,25 +53,31 @@ const WMO_CODE = {
 // -----------------------------------------------------------------------------
 
 function appendDayForecast(openMeteo, day, anchor) {
-  const date = openMeteo.daily.time[day].substring(8);
-  const code = WMO_CODE[openMeteo.daily.weather_code[day]];
-  const min = `<span class="article__min">${openMeteo.daily.apparent_temperature_min[day]}</span> ${openMeteo.daily_units.apparent_temperature_min}`;
-  const max = `<span class="article__max">${openMeteo.daily.apparent_temperature_max[day]}</span> ${openMeteo.daily_units.apparent_temperature_max}`;
-  const rain = `${openMeteo.daily.precipitation_probability_max[day]} ${openMeteo.daily_units.precipitation_probability_max}`;
-
   const article = document.createElement("article");
   article.className = "article";
 
+  const wd = normalizeWeatherData(openMeteo, day);
   const innerHTML = `
-    <h3 class="article__title">${date}</h3>
+    <h3 class="article__title">${wd.relative ?? wd.date}</h3>
 
-    <p class="article__code">${code}</p>
-    <p class="article__minmax">${min} - ${max}</p>
-    <p class="article__rain">${rain} 🌧️</p>
+    <p class="article__code">${wd.code}</p>
+    <p class="article__minmax"><span class="article__min">${wd.min}</span> - <span class="article__max">${wd.max}</span></p>
+    <p class="article__rain">${wd.rain} 🌧️</p>
   `;
   article.innerHTML = innerHTML.trim().replace(/\s+/g, " "); // trim squeeze whitespace
 
   anchor.appendChild(article);
+}
+
+function normalizeWeatherData(openMeteo, day) {
+  return {
+    date: openMeteo.daily.time[day].substring(8),
+    relative: RELATIVE_DATE[day],
+    code: WMO_CODE[openMeteo.daily.weather_code[day]],
+    min: `${openMeteo.daily.apparent_temperature_min[day]} ${openMeteo.daily_units.apparent_temperature_min}`,
+    max: `${openMeteo.daily.apparent_temperature_max[day]} ${openMeteo.daily_units.apparent_temperature_max}`,
+    rain: `${openMeteo.daily.precipitation_probability_max[day]} ${openMeteo.daily_units.precipitation_probability_max}`,
+  };
 }
 
 // -----------------------------------------------------------------------------
