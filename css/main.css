@@ -26,35 +26,35 @@ body {
   margin: 0;
 }
 
-/* Main */
+/* Days */
 /* -------------------------------------------------------------------------- */
 
-.main {
+.days {
   display: flex;
-  justify-content: space-between;
 
   margin: -2.5rem;
 }
 
-/* Article */
+.day {
+  flex: 0 0 20%;
 
-.article {
-  margin: 2.5rem;
+  box-sizing: border-box;
+  padding: 2.5rem;
 }
 
-.article__title {
+.day__title {
   font-weight: 400;
 }
 
-.article__code {
+.day__code {
   font-weight: 700;
   text-transform: uppercase;
 }
 
-.article__min {
+.day__min {
   color: blue;
 }
 
-.article__max {
+.day__max {
   color: red;
 }

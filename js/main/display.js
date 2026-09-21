@@ -52,31 +52,39 @@ const WEATHER_DESCRIPTION = {
 
 // -----------------------------------------------------------------------------
 
-function appendDayForecast(openMeteo, day, anchor) {
+function squeeze(string) {
+  return string.replace(/\s+/g, " "); // whitespace: \s
+}
+
+// -----------------------------------------------------------------------------
+
+function appendDay(openMeteo, dayIndex, anchor) {
   const article = document.createElement("article");
-  article.className = "article";
+  article.className = "day";
 
-  const wd = normalizeWeatherData(openMeteo, day);
+  const wd = normalizeWeatherData(openMeteo, dayIndex);
   const innerHTML = `
-    <h3 class="article__title">${wd.relative ?? wd.date}</h3>
+    <h3 class="day__title">${wd.relative ?? wd.date}</h3>
 
-    <p class="article__code">${wd.code}</p>
-    <p class="article__minmax"><span class="article__min">${wd.min}</span> - <span class="article__max">${wd.max}</span></p>
-    <p class="article__rain">${wd.rain} 🌧️</p>
+    <p class="day__code">${wd.code}</p>
+    <p class="day__minmax">
+      <span class="day__min">${wd.min}</span> - <span class="day__max">${wd.max}</span>
+    </p>
+    <p class="day__rain">${wd.rain} 🌧️</p>
   `;
-  article.innerHTML = innerHTML.trim().replace(/\s+/g, " "); // trim squeeze whitespace
+  article.innerHTML = squeeze(innerHTML.trim());
 
   anchor.appendChild(article);
 }
 
-function normalizeWeatherData(openMeteo, day) {
+function normalizeWeatherData(openMeteo, dayIndex) {
   return {
-    date: openMeteo.daily.time[day].substring(8),
-    relative: RELATIVE_DATE[day],
-    code: WEATHER_DESCRIPTION[openMeteo.daily.weather_code[day]],
-    min: `${openMeteo.daily.apparent_temperature_min[day]} ${openMeteo.daily_units.apparent_temperature_min}`,
-    max: `${openMeteo.daily.apparent_temperature_max[day]} ${openMeteo.daily_units.apparent_temperature_max}`,
-    rain: `${openMeteo.daily.precipitation_probability_max[day]} ${openMeteo.daily_units.precipitation_probability_max}`,
+    date: openMeteo.daily.time[dayIndex].substring(8),
+    relative: RELATIVE_DATE[dayIndex],
+    code: WEATHER_DESCRIPTION[openMeteo.daily.weather_code[dayIndex]],
+    min: `${openMeteo.daily.apparent_temperature_min[dayIndex]} ${openMeteo.daily_units.apparent_temperature_min}`,
+    max: `${openMeteo.daily.apparent_temperature_max[dayIndex]} ${openMeteo.daily_units.apparent_temperature_max}`,
+    rain: `${openMeteo.daily.precipitation_probability_max[dayIndex]} ${openMeteo.daily_units.precipitation_probability_max}`,
   };
 }
 
@@ -85,12 +93,12 @@ function normalizeWeatherData(openMeteo, day) {
 function display(latitude, longitude) {
   console.log(latitude, longitude);
 
-  const anchor = document.getElementById("main");
+  const anchor = document.getElementById("days");
   anchor.innerHTML = "";
 
   forecast(latitude, longitude, (openMeteo) => {
-    for (let day = 0; day < 4; day++) {
-      appendDayForecast(openMeteo, day, anchor);
+    for (let dayIndex = 0; dayIndex < 5; dayIndex++) {
+      appendDay(openMeteo, dayIndex, anchor);
     }
   });
 }
