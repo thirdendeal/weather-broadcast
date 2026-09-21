@@ -2,11 +2,6 @@
 
 // -----------------------------------------------------------------------------
 
-const RELATIVE_DATE = {
-  0: "Today",
-  1: "Tomorrow",
-};
-
 const WEATHER_DESCRIPTION = {
   0: "Clear Sky",
 
@@ -63,8 +58,11 @@ function appendDay(openMeteo, dayIndex, anchor) {
   article.className = "day";
 
   const wd = normalizeWeatherData(openMeteo, dayIndex);
-  const innerHTML = `
-    <h3 class="day__title">${wd.relative ?? wd.date}</h3>
+  const innerHTML = `    
+    <h3 class="day__title">${wd.weekday}</h3>
+    <h4 class="day__subtitle">${wd.day}</h4>
+
+    <br />
 
     <p class="day__code">${wd.code}</p>
     <p class="day__minmax">
@@ -78,12 +76,17 @@ function appendDay(openMeteo, dayIndex, anchor) {
 }
 
 function normalizeWeatherData(openMeteo, dayIndex) {
+  const ymd = openMeteo.daily.time[dayIndex]; // YYYY-MM-DD
+  const weekday = new Date(`${ymd}T00:00:00`).toLocaleString("en-US", {
+    weekday: "long",
+  });
+
   return {
-    date: openMeteo.daily.time[dayIndex].substring(8),
-    relative: RELATIVE_DATE[dayIndex],
     code: WEATHER_DESCRIPTION[openMeteo.daily.weather_code[dayIndex]],
-    min: `${openMeteo.daily.apparent_temperature_min[dayIndex]} ${openMeteo.daily_units.apparent_temperature_min}`,
+    day: ymd.substring(8),
+    weekday: dayIndex === 0 ? "Today" : weekday,
     max: `${openMeteo.daily.apparent_temperature_max[dayIndex]} ${openMeteo.daily_units.apparent_temperature_max}`,
+    min: `${openMeteo.daily.apparent_temperature_min[dayIndex]} ${openMeteo.daily_units.apparent_temperature_min}`,
     rain: `${openMeteo.daily.precipitation_probability_max[dayIndex]} ${openMeteo.daily_units.precipitation_probability_max}`,
   };
 }

@@ -42,13 +42,8 @@ body {
   padding: 2.5rem;
 }
 
-.day__title {
+.day__subtitle {
   font-weight: 400;
-}
-
-.day__code {
-  font-weight: 700;
-  text-transform: uppercase;
 }
 
 .day__min {
