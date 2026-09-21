@@ -3,12 +3,14 @@
 // -----------------------------------------------------------------------------
 
 const city = document.getElementById("header__city");
+const input = document.getElementById("header__input");
 
 // Geolocation By IP (Automatic)
 // -----------------------------------------------------------------------------
 
 window.addEventListener("load", () => {
   ipGeocode((ipAPI) => {
+    input.value = "";
     city.textContent = ipAPI.city;
 
     display(ipAPI.lat, ipAPI.lon);
@@ -18,7 +20,6 @@ window.addEventListener("load", () => {
 // Geolocation By Search
 // -----------------------------------------------------------------------------
 
-const input = document.getElementById("header__input");
 const submit = document.getElementById("header__submit");
 
 submit.addEventListener("click", () => {
