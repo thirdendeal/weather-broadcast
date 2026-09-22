@@ -94,8 +94,6 @@ function normalizeWeatherData(openMeteo, dayIndex) {
 // -----------------------------------------------------------------------------
 
 function display(latitude, longitude) {
-  console.log(latitude, longitude);
-
   const anchor = document.getElementById("days");
   anchor.innerHTML = "";
 
