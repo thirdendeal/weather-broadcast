@@ -95,9 +95,10 @@ function normalizeWeatherData(openMeteo, dayIndex) {
 
 function display(latitude, longitude) {
   const anchor = document.getElementById("days");
-  anchor.innerHTML = "";
 
   forecast(latitude, longitude, (openMeteo) => {
+    anchor.innerHTML = "";
+
     for (let dayIndex = 0; dayIndex < 5; dayIndex++) {
       appendDay(openMeteo, dayIndex, anchor);
     }
