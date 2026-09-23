@@ -59,6 +59,7 @@ function appendDayForecast(openMeteo, dayIndex, anchor) {
 
   const wd = normalizeWeatherData(openMeteo, dayIndex);
   const innerHTML = `    
+    <i>${dayIndex === 0 ? "Today" : "<br />"}</i>
     <h3 class="day__title">${wd.weekday}</h3>
     <h4 class="day__subtitle">${wd.day}</h4>
 
@@ -83,7 +84,7 @@ function normalizeWeatherData(openMeteo, dayIndex) {
   return {
     code: WEATHER_DESCRIPTION[openMeteo.daily.weather_code[dayIndex]],
     day: ymd.substring(8),
-    weekday: dayIndex === 0 ? "Today" : weekday,
+    weekday: weekday,
     max: `${Number(openMeteo.daily.apparent_temperature_max[dayIndex]).toFixed(1)} ${openMeteo.daily_units.apparent_temperature_max}`,
     min: `${Number(openMeteo.daily.apparent_temperature_min[dayIndex]).toFixed(1)} ${openMeteo.daily_units.apparent_temperature_min}`,
     rain: `${openMeteo.daily.precipitation_probability_max[dayIndex]} ${openMeteo.daily_units.precipitation_probability_max}`,
