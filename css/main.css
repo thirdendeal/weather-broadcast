@@ -19,21 +19,30 @@ body {
 }
 
 .header__section {
-  padding: 1rem 0;
+  padding-top: 1rem;
 }
 
 .header__title {
   margin: 0;
 }
 
-/* Days */
+/* Main */
 /* -------------------------------------------------------------------------- */
 
-.days {
+.main__title {
+  font-size: 1.5rem;
+
+  margin-bottom: 3rem;
+}
+
+.main__days {
   display: flex;
 
   margin: -2.5rem;
 }
+
+/* Day */
+/* -------------------------------------------------------------------------- */
 
 .day {
   flex: 0 0 20%;

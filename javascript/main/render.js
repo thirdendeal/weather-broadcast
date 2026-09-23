@@ -53,7 +53,7 @@ function squeeze(string) {
 
 // -----------------------------------------------------------------------------
 
-function appendDay(openMeteo, dayIndex, anchor) {
+function appendDayForecast(openMeteo, dayIndex, anchor) {
   const article = document.createElement("article");
   article.className = "day";
 
@@ -65,9 +65,8 @@ function appendDay(openMeteo, dayIndex, anchor) {
     <br />
 
     <p class="day__code">${wd.code}</p>
-    <p class="day__minmax">
-      <span class="day__min">${wd.min}</span> - <span class="day__max">${wd.max}</span>
-    </p>
+    <p class="day__max">${wd.max}</p>
+    <p class="day__min">${wd.min}</p>
     <p class="day__rain">${wd.rain} 🌧️</p>
   `;
   article.innerHTML = squeeze(innerHTML.trim());
@@ -77,7 +76,7 @@ function appendDay(openMeteo, dayIndex, anchor) {
 
 function normalizeWeatherData(openMeteo, dayIndex) {
   const ymd = openMeteo.daily.time[dayIndex]; // YYYY-MM-DD
-  const weekday = new Date(`${ymd}T00:00:00`).toLocaleString("en-US", {
+  const weekday = new Date(`${ymd}T00:00:00`).toLocaleDateString("en-US", {
     weekday: "long",
   });
 
@@ -85,22 +84,28 @@ function normalizeWeatherData(openMeteo, dayIndex) {
     code: WEATHER_DESCRIPTION[openMeteo.daily.weather_code[dayIndex]],
     day: ymd.substring(8),
     weekday: dayIndex === 0 ? "Today" : weekday,
-    max: `${openMeteo.daily.apparent_temperature_max[dayIndex]} ${openMeteo.daily_units.apparent_temperature_max}`,
-    min: `${openMeteo.daily.apparent_temperature_min[dayIndex]} ${openMeteo.daily_units.apparent_temperature_min}`,
+    max: `${Number(openMeteo.daily.apparent_temperature_max[dayIndex]).toFixed(1)} ${openMeteo.daily_units.apparent_temperature_max}`,
+    min: `${Number(openMeteo.daily.apparent_temperature_min[dayIndex]).toFixed(1)} ${openMeteo.daily_units.apparent_temperature_min}`,
     rain: `${openMeteo.daily.precipitation_probability_max[dayIndex]} ${openMeteo.daily_units.precipitation_probability_max}`,
   };
 }
 
 // -----------------------------------------------------------------------------
 
-function display(latitude, longitude) {
-  const anchor = document.getElementById("days");
+function renderForecast(latitude, longitude) {
+  const title = document.getElementById("main__title");
+  title.textContent = new Date().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+  });
 
-  forecast(latitude, longitude, (openMeteo) => {
-    anchor.innerHTML = "";
+  const days = document.getElementById("main__days");
+
+  getForecast(latitude, longitude, (openMeteo) => {
+    days.innerHTML = "";
 
     for (let dayIndex = 0; dayIndex < 5; dayIndex++) {
-      appendDay(openMeteo, dayIndex, anchor);
+      appendDayForecast(openMeteo, dayIndex, days);
     }
   });
 }

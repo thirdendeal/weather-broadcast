@@ -1,5 +1,6 @@
 "use strict";
 
+// Cache
 // -----------------------------------------------------------------------------
 
 function getCache(key) {
@@ -15,12 +16,13 @@ function getCache(key) {
 }
 
 function setCache(key, value, duration) {
-  const expiration = new Date().getTime() + duration; // now (ms) + duration (ms)
+  const expiration = new Date().getTime() + duration; // millisecond
 
   localStorage.setItem(key, JSON.stringify(value));
   localStorage.setItem(`expire:${key}`, expiration);
 }
 
+// Fetch
 // -----------------------------------------------------------------------------
 
 function fetchIPAPI(callback) {
@@ -33,8 +35,10 @@ function fetchIPAPI(callback) {
 }
 
 function fetchNominatim(query, callback) {
-  // Nominatim (Not Continous) Limit: 1 hit / s (86_400 hits / day)
-  // Nominatim (Continous) Limit: 4 hits / min (5_760 hits / day)
+  // Nominatim Limit
+  //
+  // Not Continous: 1 hit / s (86_400 hits / day)
+  // Continous: 4 hits / min (5_760 hits / day)
 
   fetch(
     `https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(query)}`,
@@ -56,29 +60,13 @@ function fetchOpenMeteo(latitude, longitude, callback) {
   fetch(`https://api.open-meteo.com/v1/forecast?${parameters.join("&")}`)
     .then((response) => response.json())
     .then((openMeteo) => callback(openMeteo))
-    .catch((error) => console.log(`IP-API Error: ${error}`));
+    .catch((error) => console.log(`Open-Meteo Error: ${error}`));
 }
 
+// API
 // -----------------------------------------------------------------------------
 
-function forecast(latitude, longitude, callback) {
-  const key = `openMeteo:${latitude}:${longitude}`;
-  const openMeteoCache = getCache(key);
-
-  if (openMeteoCache) {
-    console.log(`Open-Meteo cache hit (${latitude}, ${longitude})`);
-
-    callback(openMeteoCache);
-  } else {
-    fetchOpenMeteo(latitude, longitude, (openMeteo) => {
-      setCache(key, openMeteo, 12000); // 12 s => 5 hits / min
-
-      callback(openMeteo);
-    });
-  }
-}
-
-function geocode(query, callback) {
+function getCoordinates(query, callback) {
   const key = `nominatim:${encodeURIComponent(query)}`;
   const nominatimCache = getCache(key);
 
@@ -95,7 +83,7 @@ function geocode(query, callback) {
   }
 }
 
-function ipGeocode(callback) {
+function getCoordinatesByIP(callback) {
   const ipAPICache = getCache("ipAPI");
 
   if (ipAPICache) {
@@ -107,6 +95,23 @@ function ipGeocode(callback) {
       setCache("ipAPI", ipAPI, 2000); // 2 s => 30 hits / min
 
       callback(ipAPI);
+    });
+  }
+}
+
+function getForecast(latitude, longitude, callback) {
+  const key = `openMeteo:${latitude}:${longitude}`;
+  const openMeteoCache = getCache(key);
+
+  if (openMeteoCache) {
+    console.log(`Open-Meteo cache hit (${latitude}, ${longitude})`);
+
+    callback(openMeteoCache);
+  } else {
+    fetchOpenMeteo(latitude, longitude, (openMeteo) => {
+      setCache(key, openMeteo, 30000); // 30 s => 2 hits / min (2 routes => 4 hits / min)
+
+      callback(openMeteo);
     });
   }
 }
