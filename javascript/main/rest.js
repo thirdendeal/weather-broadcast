@@ -16,7 +16,7 @@ function getCache(key) {
 }
 
 function setCache(key, value, duration) {
-  const expiration = new Date().getTime() + duration; // millisecond
+  const expiration = new Date().getTime() + duration; // milliseconds
 
   localStorage.setItem(key, JSON.stringify(value));
   localStorage.setItem(`expire:${key}`, expiration);
@@ -40,9 +40,9 @@ function fetchNominatim(query, callback) {
   // Not Continous: 1 hit / s (86_400 hits / day)
   // Continous: 4 hits / min (5_760 hits / day)
 
-  fetch(
-    `https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(query)}`,
-  )
+  const q = encodeURIComponent(query);
+
+  fetch(`https://nominatim.openstreetmap.org/search?format=jsonv2&q=${q}`)
     .then((response) => response.json())
     .then((nominatim) => callback(nominatim))
     .catch((error) => console.log(`Nominatim Error: ${error}`));
@@ -51,13 +51,20 @@ function fetchNominatim(query, callback) {
 function fetchOpenMeteo(latitude, longitude, callback) {
   // Open-Meteo Limit: 6.9444... hits / min (10_000 hits / day)
 
-  const parameters = [
-    `latitude=${latitude}&longitude=${longitude}`,
-    "daily=weather_code,apparent_temperature_min,apparent_temperature_max,precipitation_probability_max",
-    "timezone=auto",
-  ];
+  const openMeteoEndpoint = `    
+    https://api.open-meteo.com/v1/forecast
+      ?forecast_days=5
+      &latitude=${latitude}
+      &longitude=${longitude}
+      &daily=
+        weather_code,
+        apparent_temperature_min,
+        apparent_temperature_max,
+        precipitation_probability_max,
+      &timezone=auto
+  `;
 
-  fetch(`https://api.open-meteo.com/v1/forecast?${parameters.join("&")}`)
+  fetch(openMeteoEndpoint.replace(/\s+/g, ""))
     .then((response) => response.json())
     .then((openMeteo) => callback(openMeteo))
     .catch((error) => console.log(`Open-Meteo Error: ${error}`));

@@ -47,19 +47,11 @@ const WEATHER_DESCRIPTION = {
 
 // -----------------------------------------------------------------------------
 
-function squeeze(string) {
-  return string.replace(/\s+/g, " "); // whitespace: \s
-}
-
-// -----------------------------------------------------------------------------
-
 function appendDayForecast(openMeteo, dayIndex, anchor) {
-  const article = document.createElement("article");
-  article.className = "day";
-
   const wd = normalizeWeatherData(openMeteo, dayIndex);
-  const innerHTML = `    
-    <i>${dayIndex === 0 ? "Today" : "<br />"}</i>
+
+  const forecast = `    
+    <i>${wd.relative ?? "<br />"}</i>
     <h3 class="day__title">${wd.weekday}</h3>
     <h4 class="day__subtitle">${wd.day}</h4>
 
@@ -70,24 +62,28 @@ function appendDayForecast(openMeteo, dayIndex, anchor) {
     <p class="day__min">${wd.min}</p>
     <p class="day__rain">${wd.rain} 🌧️</p>
   `;
-  article.innerHTML = squeeze(innerHTML.trim());
 
-  anchor.appendChild(article);
+  const day = document.createElement("article");
+
+  day.className = "day";
+  day.innerHTML = forecast.trim().replace(/\s+/g, " "); // trim, squeeze
+
+  anchor.appendChild(day);
 }
 
 function normalizeWeatherData(openMeteo, dayIndex) {
-  const ymd = openMeteo.daily.time[dayIndex]; // YYYY-MM-DD
-  const weekday = new Date(`${ymd}T00:00:00`).toLocaleDateString("en-US", {
-    weekday: "long",
-  });
+  const givenDay = openMeteo.daily.time[dayIndex]; // YYYY-MM-DD
 
   return {
     code: WEATHER_DESCRIPTION[openMeteo.daily.weather_code[dayIndex]],
-    day: ymd.substring(8),
-    weekday: weekday,
+    day: givenDay.substring(8), // DD
+    weekday: new Date(`${givenDay}T00:00:00`).toLocaleDateString("en-US", {
+      weekday: "long",
+    }),
     max: `${Number(openMeteo.daily.apparent_temperature_max[dayIndex]).toFixed(1)} ${openMeteo.daily_units.apparent_temperature_max}`,
     min: `${Number(openMeteo.daily.apparent_temperature_min[dayIndex]).toFixed(1)} ${openMeteo.daily_units.apparent_temperature_min}`,
     rain: `${openMeteo.daily.precipitation_probability_max[dayIndex]} ${openMeteo.daily_units.precipitation_probability_max}`,
+    relative: dayIndex === 0 ? "Today" : null,
   };
 }
 
