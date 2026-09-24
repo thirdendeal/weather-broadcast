@@ -61,6 +61,7 @@ function fetchOpenMeteo(latitude, longitude, callback) {
         apparent_temperature_min,
         apparent_temperature_max,
         precipitation_probability_max,
+        uv_index_max
       &timezone=auto
   `;
 

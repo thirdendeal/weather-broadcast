@@ -47,6 +47,22 @@ const WEATHER_DESCRIPTION = {
 
 // -----------------------------------------------------------------------------
 
+function uvColor(uv) {
+  if (uv > 10) {
+    return "purple";
+  } else if (uv > 7) {
+    return "red";
+  } else if (uv > 5) {
+    return "orange";
+  } else if (uv > 2) {
+    return "#FFDB58"; // yellow
+  } else {
+    return "green";
+  }
+}
+
+// -----------------------------------------------------------------------------
+
 function appendDayForecast(openMeteo, dayIndex, anchor) {
   const wd = normalizeWeatherData(openMeteo, dayIndex);
 
@@ -61,6 +77,12 @@ function appendDayForecast(openMeteo, dayIndex, anchor) {
     <p class="day__max">${wd.max}</p>
     <p class="day__min">${wd.min}</p>
     <p class="day__rain">${wd.rain} 🌧️</p>
+    <p class="day__uv">
+      UV 
+      <b style="padding: 0 0.25rem; color: white; background-color: ${uvColor(wd.uv)}">
+        ${wd.uv}
+      </b>
+    </p>
   `;
 
   const day = document.createElement("article");
@@ -80,10 +102,11 @@ function normalizeWeatherData(openMeteo, dayIndex) {
     weekday: new Date(`${givenDay}T00:00:00`).toLocaleDateString("en-US", {
       weekday: "long",
     }),
-    max: `${Number(openMeteo.daily.apparent_temperature_max[dayIndex]).toFixed(1)} ${openMeteo.daily_units.apparent_temperature_max}`,
-    min: `${Number(openMeteo.daily.apparent_temperature_min[dayIndex]).toFixed(1)} ${openMeteo.daily_units.apparent_temperature_min}`,
+    max: `${Number(openMeteo.daily.apparent_temperature_max[dayIndex]).toFixed(0)} ${openMeteo.daily_units.apparent_temperature_max}`,
+    min: `${Number(openMeteo.daily.apparent_temperature_min[dayIndex]).toFixed(0)} ${openMeteo.daily_units.apparent_temperature_min}`,
     rain: `${openMeteo.daily.precipitation_probability_max[dayIndex]} ${openMeteo.daily_units.precipitation_probability_max}`,
     relative: dayIndex === 0 ? "Today" : null,
+    uv: Number(openMeteo.daily.uv_index_max[dayIndex]).toFixed(1),
   };
 }
 
