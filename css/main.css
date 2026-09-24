@@ -31,8 +31,9 @@ body {
 
 .main__title {
   font-size: 1.5rem;
-
-  margin-bottom: 3rem;
+  margin-bottom: 4.5rem;
+  text-align: center;
+  text-transform: full-width uppercase;
 }
 
 .main__days {
@@ -49,10 +50,6 @@ body {
 
   box-sizing: border-box;
   padding: 2.5rem;
-}
-
-.day__subtitle {
-  font-weight: 400;
 }
 
 .day__min {
