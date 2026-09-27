@@ -1,7 +1,7 @@
 // Fetch
 // -----------------------------------------------------------------------------
 
-function fetchIPAPI(callback) {
+function fetchIP_API(callback) {
   fetch("http://ip-api.com/json/")
     .then((response) => response.json())
     .then((ipAPI) => callback(ipAPI))
@@ -42,4 +42,4 @@ function fetchOpenMeteo(latitude, longitude, callback) {
 
 // -----------------------------------------------------------------------------
 
-export { fetchIPAPI, fetchNominatim, fetchOpenMeteo };
+export { fetchIP_API, fetchNominatim, fetchOpenMeteo };

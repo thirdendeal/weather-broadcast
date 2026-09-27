@@ -2,11 +2,11 @@
 // -----------------------------------------------------------------------------
 
 import { getCacheItem, setCacheItem } from "./rest/cache-item.js";
-import { fetchIPAPI, fetchNominatim, fetchOpenMeteo } from "./rest/fetch.js";
+import { fetchIP_API, fetchNominatim, fetchOpenMeteo } from "./rest/fetch.js";
 
 // -----------------------------------------------------------------------------
 
-function getIPAPI(callback) {
+function getIP_API(callback) {
   const ipAPICache = getCacheItem("ipAPI");
 
   if (ipAPICache) {
@@ -14,7 +14,7 @@ function getIPAPI(callback) {
 
     callback(ipAPICache);
   } else {
-    fetchIPAPI((ipAPI) => {
+    fetchIP_API((ipAPI) => {
       // IP-API: 45 hits / min limit
       setCacheItem("ipAPI", ipAPI, 2000); // 2 s => 30 hits / min
 
@@ -61,4 +61,4 @@ function getOpenMeteo(latitude, longitude, callback) {
 
 // -----------------------------------------------------------------------------
 
-export { getIPAPI, getNominatim, getOpenMeteo };
+export { getIP_API, getNominatim, getOpenMeteo };

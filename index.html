@@ -10,32 +10,27 @@
   <body>
     <header class="header">
       <section class="header__section">
-        <h1 class="header__title">Weather Broadcast</h1>
+        <h1 class="logotype">Weather Broadcast</h1>
 
-        <h2 id="header__city">?</h2>
-        <p id="header__city-detail"><br /></p>
+        <h2 class="place" id="place"><br /></h2>
+        <p class="address" id="address"><br /></p>
       </section>
 
       <section class="header__section">
         <input
           type="text"
-          name="header__input"
-          id="header__input"
+          name="input"
+          id="input"
           placeholder="Somewhere else?"
         />
-        <input
-          type="submit"
-          name="header__submit"
-          id="header__submit"
-          value="Search"
-        />
+        <input type="submit" name="submit" id="submit" value="Search" />
       </section>
     </header>
 
     <main class="main" id="main">
-      <h2 class="main__title" id="main__title"></h2>
+      <h2 class="month-year" id="month-year"></h2>
 
-      <section class="main__days" id="main__days"></section>
+      <section class="days" id="days"></section>
     </main>
 
     <script type="module" src="/javascript/main.js"></script>

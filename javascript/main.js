@@ -1,15 +1,18 @@
 // Main
 // -----------------------------------------------------------------------------
 
-import { renderForecast } from "./main/render.js";
-import { getIPAPI, getNominatim } from "./main/rest.js";
+import { renderOpenMeteo } from "./main/render.js";
+import { getIP_API, getNominatim, getOpenMeteo } from "./main/rest.js";
 
 // -----------------------------------------------------------------------------
 
-const city = document.getElementById("header__city");
+const input = document.getElementById("input");
+const submit = document.getElementById("submit");
 
-const input = document.getElementById("header__input");
-const submit = document.getElementById("header__submit");
+const place = document.getElementById("place");
+const address = document.getElementById("address");
+
+const days = document.getElementById("days");
 
 // -----------------------------------------------------------------------------
 
@@ -25,11 +28,13 @@ input.addEventListener("keydown", (event) => {
 // -----------------------------------------------------------------------------
 
 window.addEventListener("load", () => {
-  getIPAPI((ipAPI) => {
+  getIP_API((ipAPI) => {
     input.value = "";
-    city.textContent = ipAPI.city;
+    place.innerHTML = ipAPI.city;
 
-    renderForecast(ipAPI.lat, ipAPI.lon);
+    getOpenMeteo(ipAPI.lat, ipAPI.lon, (openMeteo) => {
+      renderOpenMeteo(openMeteo);
+    });
   });
 });
 
@@ -37,21 +42,27 @@ window.addEventListener("load", () => {
 // -----------------------------------------------------------------------------
 
 submit.addEventListener("click", () => {
-  city.textContent = "...";
+  // Clear data (instant response and load hint)
+
+  place.innerHTML = "<br />";
+  address.innerHTML = "<br />";
+
+  days.innerHTML = "";
 
   getNominatim(input.value, (nominatim) => {
     if (nominatim[0]) {
-      city.textContent = nominatim[0].name;
+      place.innerHTML = nominatim[0].name;
+      address.innerHTML = nominatim[0].display_name;
 
-      document.getElementById("header__city-detail").textContent =
-        nominatim[0].display_name;
-
-      renderForecast(
+      getOpenMeteo(
         parseFloat(nominatim[0].lat),
         parseFloat(nominatim[0].lon),
+        (openMeteo) => {
+          renderOpenMeteo(openMeteo);
+        },
       );
     } else {
-      city.textContent = `"${input.value}" not found`;
+      place.innerHTML = `"${input.value}" not found`;
     }
   });
 });

@@ -46,22 +46,41 @@ const WEATHER_DESCRIPTION = {
 
 // -----------------------------------------------------------------------------
 
-function normalizeOpenMeteoDay(response, index) {
-  const givenDay = response.daily.time[index]; // YYYY-MM-DD
+function uvColor(uv) {
+  if (uv > 10) {
+    return "purple";
+  } else if (uv > 7) {
+    return "red";
+  } else if (uv > 5) {
+    return "orange";
+  } else if (uv > 2) {
+    return "#FFDB58"; // yellow
+  } else {
+    return "green";
+  }
+}
+
+// -----------------------------------------------------------------------------
+
+function normalizeOpenMeteoDay(payload, index) {
+  const uv = payload.daily.uv_index_max[index].toFixed(1);
 
   return {
-    code: WEATHER_DESCRIPTION[response.daily.weather_code[index]],
-    day: givenDay.substring(8), // DD
-    weekday: new Date(`${givenDay}T00:00:00`).toLocaleDateString("en-US", {
+    code: WEATHER_DESCRIPTION[payload.daily.weather_code[index]],
+    number: payload.daily.time[index].substring(8), // DD
+    weekday: new Date(
+      `${payload.daily.time[index]}T00:00:00`,
+    ).toLocaleDateString("en-US", {
       weekday: "long",
     }),
-    max: `${Number(response.daily.apparent_temperature_max[index]).toFixed(0)} ${response.daily_units.apparent_temperature_max}`,
-    min: `${Number(response.daily.apparent_temperature_min[index]).toFixed(0)} ${response.daily_units.apparent_temperature_min}`,
-    rain: `${response.daily.precipitation_probability_max[index]} ${response.daily_units.precipitation_probability_max}`,
-    relative: index === 0 ? "Today" : null,
-    uv: Number(response.daily.uv_index_max[index]).toFixed(1),
-    sunrise: response.daily.sunrise[index].substring(11), // YYYY-MM-DDTHH:MM -> HH:MM
-    sunset: response.daily.sunset[index].substring(11),
+    max: `${payload.daily.apparent_temperature_max[index].toFixed(0)} ${payload.daily_units.apparent_temperature_max}`,
+    min: `${payload.daily.apparent_temperature_min[index].toFixed(0)} ${payload.daily_units.apparent_temperature_min}`,
+    rain: `${payload.daily.precipitation_probability_max[index]} ${payload.daily_units.precipitation_probability_max}`,
+    today: index === 0 ? "Today" : null,
+    uv,
+    uvColor: uvColor(uv),
+    sunrise: payload.daily.sunrise[index].substring(11), // HH:MM
+    sunset: payload.daily.sunset[index].substring(11), // HH:MM
   };
 }
 

@@ -3,6 +3,8 @@
 
 body {
   width: 80rem;
+  min-width: 80rem;
+
   margin: auto;
 
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -22,28 +24,27 @@ body {
   padding-top: 1rem;
 }
 
-.header__title {
+.logotype {
   margin: 0;
 }
 
 /* Main */
 /* -------------------------------------------------------------------------- */
 
-.main__title {
+.month-year {
   font-size: 1.5rem;
   margin-bottom: 4.5rem;
   text-align: center;
   text-transform: full-width uppercase;
 }
 
-.main__days {
+.days {
   display: flex;
 
   margin: -2.5rem;
 }
 
 /* Day */
-/* -------------------------------------------------------------------------- */
 
 .day {
   flex: 0 0 20%;
@@ -58,4 +59,11 @@ body {
 
 .day__max {
   color: red;
+}
+
+.day__uv-index {
+  color: white;
+  font-weight: bold;
+
+  padding: 0 0.25rem;
 }
