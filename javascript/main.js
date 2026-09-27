@@ -1,15 +1,31 @@
-"use strict";
+// Main
+// -----------------------------------------------------------------------------
+
+import { renderForecast } from "./main/render.js";
+import { getIPAPI, getNominatim } from "./main/rest.js";
 
 // -----------------------------------------------------------------------------
 
 const city = document.getElementById("header__city");
+
 const input = document.getElementById("header__input");
+const submit = document.getElementById("header__submit");
+
+// -----------------------------------------------------------------------------
+
+input.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+
+    submit.click();
+  }
+});
 
 // Geolocation By IP (Automatic)
 // -----------------------------------------------------------------------------
 
 window.addEventListener("load", () => {
-  getCoordinatesByIP((ipAPI) => {
+  getIPAPI((ipAPI) => {
     input.value = "";
     city.textContent = ipAPI.city;
 
@@ -20,12 +36,10 @@ window.addEventListener("load", () => {
 // Geolocation By Search
 // -----------------------------------------------------------------------------
 
-const submit = document.getElementById("header__submit");
-
 submit.addEventListener("click", () => {
   city.textContent = "...";
 
-  getCoordinates(input.value, (nominatim) => {
+  getNominatim(input.value, (nominatim) => {
     if (nominatim[0]) {
       city.textContent = nominatim[0].name;
 
@@ -40,12 +54,4 @@ submit.addEventListener("click", () => {
       city.textContent = `"${input.value}" not found`;
     }
   });
-});
-
-input.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    event.preventDefault();
-
-    submit.click();
-  }
 });
