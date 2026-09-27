@@ -83,6 +83,8 @@ function appendDayForecast(openMeteo, dayIndex, anchor) {
         ${wd.uv}
       </b>
     </p>
+    <p>${wd.sunrise} ☀️↑</p>
+    <p>${wd.sunset} ☀️↓</p>
   `;
 
   const day = document.createElement("article");
@@ -107,6 +109,8 @@ function normalizeWeatherData(openMeteo, dayIndex) {
     rain: `${openMeteo.daily.precipitation_probability_max[dayIndex]} ${openMeteo.daily_units.precipitation_probability_max}`,
     relative: dayIndex === 0 ? "Today" : null,
     uv: Number(openMeteo.daily.uv_index_max[dayIndex]).toFixed(1),
+    sunrise: openMeteo.daily.sunrise[dayIndex].substring(11), // YYYY-MM-DDTHH:MM -> HH:MM
+    sunset: openMeteo.daily.sunset[dayIndex].substring(11),
   };
 }
 
