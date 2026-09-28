@@ -98,3 +98,19 @@ document.querySelectorAll(".tv-position").forEach((tvPosition) => {
     event.target.appendChild(tv);
   });
 });
+
+// Tempo
+// -----------------------------------------------------------------------------
+
+const tvScreen = document.getElementById("tv-screen");
+
+tv.addEventListener("click", () => {
+  tvScreen.classList.add("tv-screen-card-1");
+
+  [1, 2, 3, 4, 5].forEach((number) => {
+    setTimeout(() => {
+      tvScreen.classList.remove(`tv-screen-card-${number}`);
+      tvScreen.classList.add(`tv-screen-card-${number + 1}`);
+    }, number * 1000);
+  });
+});
