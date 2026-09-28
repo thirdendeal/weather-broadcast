@@ -1,7 +1,7 @@
 // Render
 // -----------------------------------------------------------------------------
 
-import Day from "./render/day.js";
+import Day from "./render/Day.js";
 
 import { normalizeOpenMeteoDay } from "./render/normalize.js";
 
