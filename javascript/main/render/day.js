@@ -2,7 +2,9 @@
 // -----------------------------------------------------------------------------
 
 function createDayHTML(day) {
-  return `    
+  return `
+    <div class="tv-placement"></div>
+
     <i>${day.today ?? "<br />"}</i>
 
     <h3 class="day__weekday">${day.weekday}</h3>
@@ -27,10 +29,12 @@ function createDayHTML(day) {
 
 // -----------------------------------------------------------------------------
 
-function createDayElement(day) {
+function createDayElement(day, id) {
   const element = document.createElement("article");
 
   element.className = "day";
+  element.id = id;
+
   element.innerHTML = createDayHTML(day);
 
   return element;

@@ -2,6 +2,8 @@
 // -----------------------------------------------------------------------------
 
 import { createDayElement } from "./render/day.js";
+import { createTV_Element } from "./render/tv.js";
+
 import { normalizeOpenMeteoDay } from "./render/normalize.js";
 
 // -----------------------------------------------------------------------------
@@ -19,8 +21,14 @@ function renderOpenMeteo(payload) {
 
   days.innerHTML = ""; // prevent concurrent rendering
   for (let index = 0; index < 5; index++) {
-    days.appendChild(createDayElement(normalizeOpenMeteoDay(payload, index))); // 5-day forecast
+    const normalizedDay = normalizeOpenMeteoDay(payload, index);
+
+    days.appendChild(createDayElement(normalizedDay, `day-${index}`)); // 5-day forecast
   }
+
+  document
+    .querySelector("#day-1 .tv-placement")
+    .appendChild(createTV_Element());
 }
 
 // -----------------------------------------------------------------------------
