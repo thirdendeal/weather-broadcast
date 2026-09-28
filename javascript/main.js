@@ -104,13 +104,30 @@ document.querySelectorAll(".tv-position").forEach((tvPosition) => {
 
 const tvScreen = document.getElementById("tv-screen");
 
+let timeouts;
+
 tv.addEventListener("click", () => {
+  if (tv.draggable == false) {
+    timeouts.forEach((timeout) => clearTimeout(timeout));
+
+    tvScreen.classList.remove(
+      ...[1, 2, 3, 4, 5].map((number) => `tv-screen-card-${number}`),
+    );
+
+    tv.draggable = true;
+
+    return;
+  }
+
+  tv.draggable = false;
   tvScreen.classList.add("tv-screen-card-1");
 
-  [1, 2, 3, 4, 5].forEach((number) => {
-    setTimeout(() => {
+  timeouts = [1, 2, 3, 4, 5].map((number) => {
+    return setTimeout(() => {
       tvScreen.classList.remove(`tv-screen-card-${number}`);
       tvScreen.classList.add(`tv-screen-card-${number + 1}`);
+
+      if (number == 5) tv.draggable = true;
     }, number * 1000);
   });
 });

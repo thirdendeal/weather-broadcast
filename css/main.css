@@ -75,26 +75,51 @@ body {
   height: 80%;
 
   background-color: black;
+
+  display: grid;
+  align-items: center;
+  color: white;
+  text-align: center;
 }
 
 .tv-screen-card-1 {
   background: blueviolet;
+
+  &::after {
+    content: "1";
+  }
 }
 
 .tv-screen-card-2 {
   background: mediumpurple;
+
+  &::after {
+    content: "2";
+  }
 }
 
 .tv-screen-card-3 {
   background: indigo;
+
+  &::after {
+    content: "3";
+  }
 }
 
 .tv-screen-card-4 {
   background: mediumorchid;
+
+  &::after {
+    content: "4";
+  }
 }
 
 .tv-screen-card-5 {
   background: rebeccapurple;
+
+  &::after {
+    content: "5";
+  }
 }
 
 .day__min {
