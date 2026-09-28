@@ -38,7 +38,8 @@ body {
   text-transform: full-width uppercase;
 }
 
-.days {
+.days,
+.tv-positions {
   display: flex;
 
   margin: -2.5rem;
@@ -46,22 +47,21 @@ body {
 
 /* Day */
 
-.day {
+.day,
+.tv-position {
   flex: 0 0 20%;
 
   box-sizing: border-box;
   padding: 2.5rem;
 }
 
-.tv-placement {
-  width: 100%;
-  height: 12rem; /* (80 - 4 * 2 * 2.5) / 5 = 60 / 5 = 12 */
-  margin-bottom: 3rem;
+.tv-positions {
+  margin-top: 3rem;
 }
 
 .tv {
   width: 100%;
-  height: 100%;
+  height: 12rem; /* (80 - 4 * 2 * 2.5) / 5 = 60 / 5 = 12 */
   background-color: orange;
 }
 

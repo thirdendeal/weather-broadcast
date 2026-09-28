@@ -2,7 +2,6 @@
 // -----------------------------------------------------------------------------
 
 import Day from "./render/day.js";
-import TV from "./render/tv.js";
 
 import { normalizeOpenMeteoDay } from "./render/normalize.js";
 
@@ -25,8 +24,6 @@ function renderOpenMeteo(payload) {
 
     days.appendChild(new Day(normalizedDay, `day-${index}`)); // 5-day forecast
   }
-
-  document.querySelector("#day-1 .tv-placement").appendChild(new TV());
 }
 
 // -----------------------------------------------------------------------------
