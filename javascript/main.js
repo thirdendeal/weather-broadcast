@@ -107,8 +107,14 @@ const tvScreen = document.getElementById("tv-screen");
 let timeouts = [];
 
 tv.addEventListener("click", () => {
-  const tvPosition = tv.parentElement.id.split("-").at(-1);
-  const dataPoints = document.querySelectorAll(`#day-${tvPosition} p`);
+  const dataPoints = document.querySelectorAll(".day p");
+
+  const tvPosition = Number(tv.parentElement.id.split("-").at(-1));
+
+  const columns = document.querySelectorAll(`.day`).length;
+  const rows = dataPoints.length / columns;
+
+  const multiColumn = document.getElementById("checkbox").checked;
 
   if (tv.draggable == false) {
     timeouts.forEach((timeout) => clearTimeout(timeout));
@@ -126,18 +132,30 @@ tv.addEventListener("click", () => {
   tv.draggable = false;
 
   tvScreen.classList.add("tv-screen-card-1"); // instant card 1
-  dataPoints[0].classList.remove("invisible"); // instant info 1
 
-  for (let count = 1; count <= dataPoints.length; count++) {
+  for (let columnIndex = 0; columnIndex < columns; columnIndex++) {
+    if (!multiColumn && columnIndex != tvPosition) continue;
+
+    dataPoints[columnIndex * rows].classList.remove("invisible"); // instant info row 1
+  }
+
+  for (let count = 1; count <= rows; count++) {
     timeouts.push(
       setTimeout(() => {
         tvScreen.classList.remove(`tv-screen-card-${count}`);
 
-        if (count == dataPoints.length) {
+        if (count == rows) {
           tv.draggable = true;
         } else {
           tvScreen.classList.add(`tv-screen-card-${count + 1}`); // card 2 up to n
-          dataPoints[count].classList.remove("invisible"); // info 2 up to n
+
+          for (let columnIndex = 0; columnIndex < columns; columnIndex++) {
+            if (!multiColumn && columnIndex != tvPosition) continue;
+
+            dataPoints[columnIndex * rows + count].classList.remove(
+              "invisible",
+            ); // info row 2 up to n
+          }
         }
       }, count * 1000),
     );
