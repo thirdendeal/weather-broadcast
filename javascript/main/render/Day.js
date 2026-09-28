@@ -12,18 +12,18 @@ function createDayHTML(day) {
     
     <br />
     
-    <p class="day__code">${day.code}</p>
-    <p class="day__max">${day.max}</p>
-    <p class="day__min">${day.min}</p>
-    <p class="day__rain">${day.rain} 🌧️</p>
-    <p class="day__uv">
+    <p class="day__code invisible">${day.code}</p>
+    <p class="day__max invisible">${day.max}</p>
+    <p class="day__min invisible">${day.min}</p>
+    <p class="day__rain invisible">${day.rain} 🌧️</p>
+    <p class="day__uv invisible">
       UV 
       <span class="day__uv-index" style="background-color: ${day.uvColor}">
         ${day.uv}
       </span>
     </p>
-    <p class="day__sunrise">${day.sunrise} ☀️↑</p>
-    <p class="day__sunset">${day.sunset} ☀️↓</p>
+    <p class="day__sunrise invisible">${day.sunrise} ☀️↑</p>
+    <p class="day__sunset invisible">${day.sunset} ☀️↓</p>
   `;
 }
 

@@ -104,15 +104,19 @@ document.querySelectorAll(".tv-position").forEach((tvPosition) => {
 
 const tvScreen = document.getElementById("tv-screen");
 
-let timeouts;
+let timeouts = [];
 
 tv.addEventListener("click", () => {
+  const tvPosition = tv.parentElement.id.split("-").at(-1);
+  const dataPoints = document.querySelectorAll(`#day-${tvPosition} p`);
+
   if (tv.draggable == false) {
     timeouts.forEach((timeout) => clearTimeout(timeout));
+    timeouts = [];
 
-    tvScreen.classList.remove(
-      ...[1, 2, 3, 4, 5].map((number) => `tv-screen-card-${number}`),
-    );
+    for (let count = 1; count <= dataPoints.length; count++) {
+      tvScreen.classList.remove(`tv-screen-card-${count}`);
+    }
 
     tv.draggable = true;
 
@@ -120,14 +124,22 @@ tv.addEventListener("click", () => {
   }
 
   tv.draggable = false;
-  tvScreen.classList.add("tv-screen-card-1");
 
-  timeouts = [1, 2, 3, 4, 5].map((number) => {
-    return setTimeout(() => {
-      tvScreen.classList.remove(`tv-screen-card-${number}`);
-      tvScreen.classList.add(`tv-screen-card-${number + 1}`);
+  tvScreen.classList.add("tv-screen-card-1"); // instant card 1
+  dataPoints[0].classList.remove("invisible"); // instant info 1
 
-      if (number == 5) tv.draggable = true;
-    }, number * 1000);
-  });
+  for (let count = 1; count <= dataPoints.length; count++) {
+    timeouts.push(
+      setTimeout(() => {
+        tvScreen.classList.remove(`tv-screen-card-${count}`);
+
+        if (count == dataPoints.length) {
+          tv.draggable = true;
+        } else {
+          tvScreen.classList.add(`tv-screen-card-${count + 1}`); // card 2 up to n
+          dataPoints[count].classList.remove("invisible"); // info 2 up to n
+        }
+      }, count * 1000),
+    );
+  }
 });

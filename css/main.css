@@ -122,6 +122,22 @@ body {
   }
 }
 
+.tv-screen-card-6 {
+  background: violet;
+
+  &::after {
+    content: "6";
+  }
+}
+
+.tv-screen-card-7 {
+  background: purple;
+
+  &::after {
+    content: "7";
+  }
+}
+
 .day__min {
   color: blue;
 }
@@ -135,4 +151,11 @@ body {
   font-weight: bold;
 
   padding: 0 0.25rem;
+}
+
+/* Helper */
+/* -------------------------------------------------------------------------- */
+
+.invisible {
+  visibility: hidden;
 }
