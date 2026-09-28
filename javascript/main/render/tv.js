@@ -1,7 +1,7 @@
 // TV
 // -----------------------------------------------------------------------------
 
-function createTV_Element() {
+function TV() {
   const element = document.createElement("div");
 
   element.className = "tv";
@@ -12,4 +12,4 @@ function createTV_Element() {
 
 // -----------------------------------------------------------------------------
 
-export { createTV_Element };
+export default TV;

@@ -29,7 +29,7 @@ function createDayHTML(day) {
 
 // -----------------------------------------------------------------------------
 
-function createDayElement(day, id) {
+function Day(day, id) {
   const element = document.createElement("article");
 
   element.className = "day";
@@ -42,4 +42,4 @@ function createDayElement(day, id) {
 
 // -----------------------------------------------------------------------------
 
-export { createDayElement };
+export default Day;
