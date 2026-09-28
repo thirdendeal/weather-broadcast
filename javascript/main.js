@@ -66,3 +66,35 @@ submit.addEventListener("click", () => {
     }
   });
 });
+
+// TV
+// -----------------------------------------------------------------------------
+
+const tv = document.getElementById("tv");
+
+tv.draggable = true;
+
+document.querySelectorAll(".tv-position").forEach((tvPosition) => {
+  tvPosition.addEventListener("dragover", (event) => {
+    event.preventDefault();
+  });
+
+  tvPosition.addEventListener("dragenter", () => {
+    if (tvPosition === tv.parentElement) return;
+
+    tvPosition.style = "background-color: whitesmoke";
+  });
+
+  tvPosition.addEventListener("dragleave", () => {
+    if (tvPosition === tv.parentElement) return;
+
+    tvPosition.style = "";
+  });
+
+  tvPosition.addEventListener("drop", (event) => {
+    if (tvPosition === tv.parentElement) return;
+
+    event.target.style = "";
+    event.target.appendChild(tv);
+  });
+});
